@@ -22,6 +22,7 @@ def calculate_cost(rental_duration: int):
         return 0
     
 
-def save_rental(rental: dict):
-    return 0 
-
+def save_rental(rental: dict):  
+    with open("data/rentals.json", "a+", encoding='utf-8') as out_file:
+        json.dump(rental, out_file, indent = 4)
+        print("Added entry")
