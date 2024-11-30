@@ -49,3 +49,24 @@ def load_rentals():
             print(f"Client {data[i]["clientName"]} rented a bike for {data[i]["rentalDuration"]} with a cost of {data[i]["rentalCost"]} PLN.")
     else:
         print("The given file does not exists.")
+    
+def cancel_rental(customer_name:str):
+    path = './data/rentals.json'
+    isExist = os.path.exists(path) 
+    if(isExist):  
+        with open("data/rentals.json", mode='r', encoding='utf-8') as out_file:
+            data = json.load(out_file)
+            data = list(data)
+        i = 0
+        while(i < len(data)):
+            if(data[i]["clientName"].lower() == customer_name.lower()):
+                print(f"Succesfully deleted{data[i]}")
+                del data[i]
+                i = i-1
+                print("Deleted entry") 
+            i = i + 1
+            with open("data/rentals.json", mode='w+', encoding='utf-8') as out_file:
+                json.dump(data, out_file)        
+    else:
+        print("The given file does not exists.")
+
