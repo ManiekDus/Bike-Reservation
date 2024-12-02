@@ -69,4 +69,10 @@ def cancel_rental(customer_name:str):
                 json.dump(data, out_file)        
     else:
         print("The given file does not exists.")
+def generate_daily_report():
+    filePath = (f"data/daily_report_{datetime.now():%Y-%m-%d}.json")
+    print(filePath)
+    data = load_rentals()
+    with open(filePath, mode='w+', encoding='utf-8') as out_file:
+            json.dump(data, out_file,indent=6)
 
