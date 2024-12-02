@@ -69,10 +69,41 @@ def cancel_rental(customer_name:str):
                 json.dump(data, out_file)        
     else:
         print("The given file does not exists.")
+        
 def generate_daily_report():
     filePath = (f"data/daily_report_{datetime.now():%Y-%m-%d}.json")
     print(filePath)
     data = load_rentals()
     with open(filePath, mode='w+', encoding='utf-8') as out_file:
             json.dump(data, out_file,indent=6)
+        
+def send_rental_invoice_email(customer_email, rental_details: dict):
+    HOST = "smtp-mail.outlook.com"
+    PORT = 587
 
+    FROM_EMAIL = "testemail@outlook.com"
+    PASSWORD = "somepassword"
+
+    MESSAGE = f"""Subject: Invoice email - Bike Rental Company
+    Thanks for renting one of our bikes!
+
+    Name: {rental_details["clientName"]}
+    Duration: {rental_details["rentalDuration"]}
+    Cost: {rental_details["rentalCost"]}
+    Date: {rental_details["rentalDate"]}
+    
+    Bike Rental Company
+    """
+    smpt = smtplib.SMTP(HOST, PORT)
+
+    status_code, response = smpt.ehlo()
+    print(f"Server echo: {status_code}, {response}")
+
+    status_code, response = smpt.starttls()
+    print(f"Starting: {status_code}, {response}")
+
+    status_code, response = smpt.login(FROM_EMAIL, PASSWORD)
+    print(f"Logging in: {status_code}, {response}")
+
+    smpt.sendmail(FROM_EMAIL, customer_email, MESSAGE)
+    smpt.quit()
