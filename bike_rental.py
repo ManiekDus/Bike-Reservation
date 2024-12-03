@@ -32,6 +32,8 @@ def save_rental(rental: dict):
             json.dump(data, out_file)
         print("Added entry")
     else:
+        if not os.path.exists(./data):
+            os.makedirs(./data)
         with open("data/rentals.json", mode='w+', encoding='utf-8') as out_file:
             data = []
             data.append(rental)
