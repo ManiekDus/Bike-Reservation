@@ -25,9 +25,7 @@ def save_rental(rental: dict):
         with open("data/rentals.json", mode='r', encoding='utf-8') as out_file:
             data = json.load(out_file)
             data = list(data)
-            print(data)
             data.append(rental)
-            print(data)
         with open("data/rentals.json", mode='w+', encoding='utf-8') as out_file:
             json.dump(data, out_file)
         print("Added entry")
